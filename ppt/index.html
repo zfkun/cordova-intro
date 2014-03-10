@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>cordova intro</title>
+
+        <meta name="description" content="intro of cordova">
+        <meta name="author" content="zfkun">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <link rel="stylesheet" href="css/reveal.min.css">
+        <link rel="stylesheet" href="css/theme/serif.css" id="theme">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+        <script>
+            document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+        <div class="reveal">
+
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+                <section>
+                    <h1>Cordova</h1>
+                    <h3>a platform for building native mobile applications using HTML, CSS and JavaScript</h3>
+                    <p style="text-align: right">
+                        Created by <a href="mailto:fankun01@baidu.com?subject=我要吐槽《Cordova》">范坤</a> / <a href="http://weibo.com/zfkun">@zfkun</a>
+                    </p>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Communication</h2>
+                        <p>Native Bridge</p>
+                    </section>
+
+                    <section>
+                        <h2>In Android</h2>
+                        <p>JavaScript to Native</p>
+                        <ul>
+                            <li>Prompt</li>
+                            <li>JS Object</li>
+                            <li>
+                                Location Change
+                                <p><small>'ENABLE_LOCATION_CHANGE_EXEC_MODE' in 'CordovaWebViewClient.java'</small></p>
+                            </li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>In Android</h2>
+                        <p>Native to JavaScript</p>
+                        <ul>
+                            <li>Polling</li>
+                            <li>Load URL</li>
+                            <li>
+                                Online Event
+                                <p><small>addEventListener and window.ononline</small></p>
+                            </li>
+                            <li>Private API ( 3.2.4+ )</li>
+                            <li>androidExec.processMessages</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>Load URL</h2>
+                        <div class="fragment">
+                            <pre><code class="javascript">
+        window.location = 'http://cdv_exec/'
+                        + service + '#'
+                        + action + '#'
+                        + callbackId + '#'
+                        + argsJson;
+                            </code></pre>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2>How ?</h2>
+                        <ul>
+                            <li>IFrame Nav/Hash</li>
+                            <li>XMLHttpRequest</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>with XMLHttpRequest</h2>
+
+                        <div class="fragment">
+                            <p style="text-align: left;">IOS (5.x)</p>
+                            <pre><code class="javascript">
+    // connect
+    execXhr.open('HEAD', "/!gap_exec?" + (+new Date()), true);
+
+    // with message
+    execXhr.setRequestHeader('cmds', iOSExec.nativeFetchMessages());
+                            </code></pre>
+                        </div>
+                        
+                        <div class="fragment">
+                            <p style="text-align: left;">Android</p>
+                            <pre><code class="javascript">
+    // connect
+    execXhr.open('HEAD', "/!gap_exec?" + (+new Date()), true);
+
+    // with message
+    execXhr.setRequestHeader('cmds', iOSExec.nativeFetchMessages());
+                            </code></pre>
+                        </div>
+                    </section>
+                    
+                    <section>
+                        <h2>Priority ?</h2>
+
+                        <h4>in iOS</h4>
+                        <ul>
+                            <li>XHR mode does not work on iOS 4.2</li>
+                            <li>XHR mode's main advantage is working around a bug in -webkit-scroll, which doesn't exist only on iOS 5.x devices</li>
+                            <li>IFRAME_NAV is the fastest.</li>
+                            <li>IFRAME_HASH could be made to enable synchronous bridge calls if we wanted this feature.</li>
+                        </ul>
+
+
+                    </section>
+
+                </section>
+
+                <!-- <section>
+                    <h2>Problem</h2>
+                    <ul>
+                        <li>WebSocket</li>
+                        <li>Debug</li>
+                    </ul>
+                </section> -->
+
+                <section>
+                    <h2>Debug</h2>
+                    <ul>
+                        <li>Browser</li>
+                        <li>Native</li>
+                        <li>Remote</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <section>
+                        <h3>Browser Debug</h3>
+                        <p style="margin-bottom: 30px">no Cordova API</p>
+                        <ul class="fragment">
+                            <li>Standard Browser</li>
+                            <li>Browser With Plugin</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h3>Standard Browser</h3>
+                        <ul>
+                            <li>Chrome</li>
+                            <li>Safari</li>
+                        </ul>
+
+                        <pre><code class="bash" data-trim>
+                            open -a /Applications/Google\ Chrome.app --args --disable-web-security
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <h3>Browser With Plugin</h3>
+                        <ul>
+                            <li><a href="http://ripple.incubator.apache.org/">Ripple Emulate</a></li>
+                            <li><a href="http://www.appmobi.com/">appMobi XDK</a></li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h3>Native Debug</h3>
+                        <ul class="fragment">
+                            <li>emulator</li>
+                            <li>phone / pad</li>
+                        </ul>
+                    </section>
+                    
+                    <section>
+                        <h3>Android</h3>
+
+                        <h4 style="text-align: left">Logcat</h4>
+                        <pre><code class="bash" data-trim>adb logcat</code></pre>
+
+                        <h4 style="text-align: left">Monitor (DDMS)</h4>
+                        <pre><code class="bash" data-trim>monitor</code></pre>
+                    </section>
+
+                    <section>
+                        <h3>iOS</h3>
+                        <ul>
+                            <li>XCode</li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h3>Remote Debug</h3>
+                        <p style="margin-bottom: 30px">.....基本简介</p>
+                        <ul class="fragment">
+                            <li><a href="http://debug.phonegap.com">PhoneGap</a></li>
+                            <li><a href="http://people.apache.org/~pmuellr/weinre">Weinre</a></li>
+                            <li style="text-decoration: line-through;"><a href="http://people.apache.org/~pmuellr/weinre/docs/latest/Home.html">iOS Private API</a></li>
+                            <li style="text-decoration: line-through;"><a href="http://sae.sina.com.cn/?m=mobile">云窗调试器</a></li>
+                            <li><a href="http://html.adobe.com/edge/inspect/">Adobe Edge Inspect CC</a></li>
+                            <li>Online</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h3><a href="http://debug.phonegap.com">PhoneGap</a></h3>
+                        <p style="margin-bottom: 30px;">debug.phonegap.com</p>
+
+                        <h4 style="text-align: left">1. setup guid</h4>
+                        <pre><code class="bash" data-trim>abc</code></pre>
+
+                        <h4 style="text-align: left">2. inject script into index.html</h4>
+                        <pre><code class="html" data-trim style="word-wrap: break-word;">
+                            <script src="//debug.phonegap.com/target/target-script-min.js#abc"></script>
+                        </code></pre>
+
+                        <h4 style="text-align: left">3. launch your app</h4>
+
+                        <h4 style="text-align: left">4. debugging with browser</h4>
+                        <pre><code class="bash" data-trim>
+                            http://debug.phonegap.com/client/#abc
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <h3><a href="http://people.apache.org/~pmuellr/weinre">Weinre</a></h3>
+                        <p>Web Inspector Remote</p>
+
+                        <h4 style="text-align: left">1. install</h4>
+                        <pre><code class="bash" data-trim>
+                            sudo npm -g install weinre
+                        </code></pre>
+                        
+                        <h4 style="text-align: left">2. start</h4>
+                        <pre><code class="bash" data-trim>
+                            weinre --boundHost 192.168.1.2 --httpPort 8888
+                        </code></pre>
+
+                        <h4 style="text-align: left">3. inject script into index.html</h4>
+                        <pre><code class="html" data-trim>
+                            <script src="//192.168.1.2:8888/target/target-script-min.js"></script>
+                        </code></pre>
+
+                        <h4 style="text-align: left">4. launch your app</h4>
+
+                        <h4 style="text-align: left">5. debugging with browser</h4>
+                        <pre><code class="bash" data-trim>
+                            http://192.168.1.2:8888
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <h3 style="text-decoration: line-through;"><a href="http://people.apache.org/~pmuellr/weinre/docs/latest/Home.html">iOS Private API</a></h3>
+                        <p style="margin-bottom: 30px">just for iOS 5.0 && 5.1</p>
+
+                        <h4 style="text-align: left">+ edite AppDelegate.m</h4>
+                        <pre><code class="objectivec" data-trim>
+                            [NSClassFromString(@"WebView") _enableRemoteInspector];
+                        </code></pre>
+                        
+                        <h4 style="text-align: left"><a href="http://www.iwebinspector.com/">+ iWebInspector</a></h4>
+                        <p>Web debugging tool for iOS Simuator</p>
+                    </section>
+
+                    <section>
+                        <h3 style="text-decoration: line-through;"><a href="http://sae.sina.com.cn/?m=mobile">云窗调试器</a></h3>
+                        <p style="margin-bottom: 30px">基于新浪移动云的移动应用</p>
+
+                        <h4 style="text-align: left">Android 2.2+</h4>
+                        <pre><code data-trim>
+                            PhoneGap 1.8-
+                        </code></pre>
+
+                        <h4 style="text-align: left">iOS (JailBreak)</h4>
+                        <pre><code data-trim>
+                            支持版本不详
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <h3><a href="http://html.adobe.com/edge/inspect/">Adobe Edge Inspect CC</a></h3>
+                        <p style="margin-bottom: 30px">Preview & inspect web designs on devices</p>
+
+                        <ul>
+                            <li>Synchronized browsing and refreshing</li>
+                            <li>Remote inspection</li>
+                            <li>Screenshots</li>
+                            <li>Extensibility with <a href="http://adobe.com/go/edgeinspect_api">Edge Inspect API</a></li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h3>Online</h3>
+                        <p style="margin-bottom: 30px">via `index.html` from local server</p>
+
+                        <h4 style="text-align: left">1. set `content` in config.xml</h4>
+                        <pre><code class="xml" data-trim>
+                            <content src="http://192.168.1.2:8000/index.html"></content>
+                        </code></pre>
+                        
+                        <h4 style="text-align: left">2. build & install & launch</h4>
+                        <pre><code class="bash" data-trim>
+                            cordova run *** (platform)
+                        </code></pre>
+
+                        <h4 style="text-align: left">3. debuging with Safari</h4>
+                    </section>
+                </section>
+
+                <section>
+                    <h2>Reference Links</h2>
+
+                    <h4 style="text-align: left">Websocket</h4>                    
+                    <ul>
+                        <li><a href="http://html5test.com/compare/feature/communication-websocket.basic.html">websocket support in browser</a></li>
+                        <li><a href="https://github.com/mkuklis/phonegap-websocket">websocket plugin for android</a></li>
+                        <li><a href="http://stackoverflow.com/questions/13507438/websocket-in-android-webview/13527585">websocket in android webview</a></li>
+                    </ul>
+
+                    <h4 style="text-align: left">Remote Debug</h4>
+                    <ul>
+                        <li><a href="https://developers.google.com/chrome-developer-tools/docs/protocol/tot/index">Remote Debugging Protocol tip-of-tree</a></li>
+                        <li><a href="https://developers.google.com/chrome-developer-tools/docs/remote-debugging">Remote Debugging Chrome on Android</a></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h1>Q &amp; A</h1>
+                    <h3>Thanks!</h3>
+                </section>
+
+            </div>
+
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.min.js"></script>
+
+        <script>
+
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Parallax scrolling
+                // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+                // parallaxBackgroundSize: '2100px 900px',
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+                ]
+            });
+
+        </script>
+
+    </body>
+</html>
