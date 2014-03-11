@@ -1,0 +1,21 @@
+{
+    "name": "cordova-intro",
+    "version": "0.1.0",
+    "description": "a tnternal technology sharing for cordova",
+    "main": "index.html",
+    "keywords": [
+        "cordova",
+        "phonegap",
+        "android",
+        "ios",
+        "app"
+    ],
+    "maintainers": [{
+        "name": "zfkun",
+        "email": "zfkun@msn.com"
+    }],
+    "license": "BSD",
+    "repository": "git://github.com/zfkun/cordova-intro.git",
+    "bugs": "https://github.com/zfkun/cordova-intro/issues",
+    "homepage": "https://github.com/zfkun/cordova-intro"
+}
