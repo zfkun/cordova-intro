@@ -1,4 +1,4 @@
-cordova-intro
+Cordova
 =============
 
 a tnternal technology sharing for cordova
