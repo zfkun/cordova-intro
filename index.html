@@ -271,6 +271,108 @@ NSString* queuedCommandsJSON = [_viewController.webView
                         </code></pre>
                     </section>
 
+
+                    <section>
+                        <h2>JS to Native (Windows Phone 7/8)</h2>
+                        <p style="text-align: left;">external.Notify()</p>
+                        <pre><code class="javascript" data-trim>
+var command = service + "/" + action + "/" + callbackId
+            + "/" + JSON.stringify(args);
+window.external.Notify(command);
+                        </code></pre>
+
+                        <p style="text-align: left;">ScriptNotify</p>
+                        <pre><code class="cs" data-trim>
+void CordovaBrowser_ScriptNotify(object sender, NotifyEventArgs e)
+{
+    ..
+}
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <h2>Native to JS (Windows Phone 7/8)</h2>
+                        <p style="text-align: left;">NativeExecution</p>
+                        <pre><code class="cs" data-trim>
+// NativeExecution.cs
+private void InvokeScriptCallback(ScriptCallback script)
+{
+    this.webBrowser.InvokeScript(script.ScriptName, script.Args);
+}
+                        </code></pre>
+
+                        <p style="text-align: left;">WebBrowser</p>
+                        <pre><code class="cs" data-trim>
+// WebBrowser.cs
+public Object InvokeScript(String scriptName, params Object[] args)
+{
+    ..    
+}
+                        </code></pre>
+                    </section>
+
+
+                    <section>
+                        <h2>JS to Native (Blackberry 10)</h2>
+
+                        <p style="text-align: left;">XMLHttpRequest</p>
+                        <p style="text-align: left; margin-left: 40px;">Sync / Async</p>
+                        <pre><code class="javascript" data-trim>
+function RemoteFunctionCall(functionUri) {
+    ..
+    function composeUri() {
+        return "http://localhost:8472/" + functionUri;
+    }
+    ..
+}
+                        </code></pre>
+
+                        <pre><code class="javascript" data-trim>
+function createXhrRequest(uri, isAsync) {
+    ..
+    request.open("POST", uri, isAsync);
+    request.setRequestHeader("Content-Type", "application/json");
+    ..
+}
+
+response = JSON.parse(decodeURIComponent(request.responseText) || "null");
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <h2>JS to Native (Blackberry 10)</h2>
+
+                        <p style="text-align: left;">Native</p>
+                        <p style="text-align: left; margin-left: 40px;">webview.js</p>
+                        <pre><code class="javascript" data-trim>
+var requestObj =  networkResourceRequested.createHandler(_webviewObj);
+_webviewObj.onNetworkResourceRequested = requestObj.networkResourceRequestedHandler;
+                        </code></pre>
+                        <p style="text-align: left; margin-left: 40px;">networkResourceRequested.js</p>
+                        <pre><code class="javascript" data-trim>
+module.exports = {
+    createHandler: function (webview) {
+        return new NetworkResourceRequestHandler(webview);
+    }
+};
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <h2>Native to JS (Blackberry 10)</h2>
+                        <p style="text-align: left;">executeJavaScript</p>
+                        <pre><code class="cs" data-trim>
+this.webview.executeJavaScript('');
+                        </code></pre>
+
+                        <p style="text-align: left;">PluginResult</p>
+                        <pre><code class="cs" data-trim>
+var executeString = "cordova.callbackFromNative('" + callbackId + "', " +
+    !!success + ", " + status + ", [" + data + "], " + !!keepCallback + ");";
+env.webview.executeJavaScript(executeString);
+                        </code></pre>
+                    </section>
+
                     <section>
                         <h2>Android vs iOS</h2>
                         <ul>
